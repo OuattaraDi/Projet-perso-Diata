@@ -1,0 +1,356 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menu dynamique avec flèche</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  width: 100%; /* <== AJOUT essentiel */
+}
+
+
+    body {
+      font-family: "Arial", sans-serif;
+    }
+
+    header {
+      background-color: #6a0dad; /* violet */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    nav {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    ul.menu {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      position: relative;
+    }
+
+    ul.menu li {
+      position: relative;
+    }
+
+    ul.menu a {
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 14px;
+      padding: 5px;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    ul.menu a:hover,
+    ul.menu a.active {
+      color: #e5194a; /* rose */
+    }
+
+
+
+
+
+    .cta-button {
+      background-color: #e5194a;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 14px;
+      margin-right: 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #6a0dad;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #e5194a;
+    }
+
+    .has-submenu {
+      position: relative;
+    }
+
+    .submenu {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #6a0dad;
+      list-style: none;
+      padding: 10px 0;
+      min-width: 220px;
+      z-index: 1000;
+      border-radius: 4px; /* Ajouté pour la cohérence */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Ajouté pour la profondeur visuelle */
+    }
+
+    .submenu li {
+      position: relative;
+    }
+
+    .submenu li a {
+      color: white;
+      font-size: 14px;
+      display: block;
+      padding: 10px 20px;
+      text-decoration: none;
+      text-transform: capitalize;
+      transition: padding-left 0.3s;
+    }
+
+    .submenu li:hover a {
+      padding-left: 26px;
+    }
+
+    .submenu li::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      bottom: 10px;
+      width: 4px;
+      background-color: #e5194a;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .submenu li:hover::before {
+      opacity: 1;
+    }
+
+    .has-submenu:hover .submenu {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Flèche (caret) à droite du lien */
+    .has-submenu > a i.fa-caret-down {
+      font-size: 12px; /* Taille personnalisable ici */
+      transition: transform 0.3s ease;
+    }
+
+    .has-submenu:hover > a i.fa-caret-down {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+      }
+      .logo {
+        margin-bottom: 15px;
+      }
+      nav {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      ul.menu {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        align-items: flex-start; /* Align menu items to start */
+      }
+      ul.menu li {
+        width: 100%;
+        text-align: left; /* Align text within list items */
+      }
+      ul.menu a {
+        padding: 10px 0; /* Adjust padding for mobile */
+      }
+      .submenu {
+        position: static; /* Submenus stack below parent on mobile */
+        width: 100%;
+        background-color: #550a80; /* Slightly different background for nested */
+        padding-left: 20px; /* Indent submenus */
+      }
+      .submenu li a {
+        padding: 8px 10px; /* Adjust padding for submenus on mobile */
+      }
+      .submenu li::before {
+        left: 0; /* Adjust position for submenu marker */
+      }
+      .button-group { /* Nouvelle classe pour le groupe de boutons et d'icônes sociales */
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 10px;
+      }
+      .cta-button {
+        margin-right: 0; /* Supprime la marge droite sur mobile */
+        width: 100%; /* Boutons pleine largeur */
+        text-align: center;
+      }
+      .social-icons {
+        justify-content: center; /* Centre les icônes sociales */
+        width: 100%;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <header>
+    {% if site_settings %}
+      {% if site_settings.logo %}
+        <img src="{{ site_settings.logo.url }}" alt="Logo" height="80">
+      {% else %}
+        <p style="color: white; margin: 0;">Aucun logo disponible</p>
+      {% endif %}
+    {% else %}
+      <p style="color: white; margin: 0;">Paramètres du site non configurés</p>
+    {% endif %}
+
+    <nav>
+      <ul class="menu" id="menu">
+        {% if menu_items %}
+          {% for item in menu_items %}
+            <li class="{% if item.submenus.all %}has-submenu{% endif %}">
+              <a href="{{ item.url|default:'#' }}" class="{% if item.name == 'Accueil' %}active{% endif %}">
+                {{ item.name }}
+                {% if item.submenus.all %}
+                  <i class="fas fa-caret-down"></i>
+                {% endif %}
+              </a>
+              {% if item.submenus.all %}
+                <ul class="submenu">
+                  {% for sub in item.submenus.all %}
+                    <li><a href="{{ sub.url|default:'#' }}">{{ sub.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        {% else %}
+          <li style="color: white; padding: 10px 0; text-align: center; width: 100%;">Aucun élément de menu trouvé.</li>
+        {% endif %}
+      </ul>
+      <div class="menu-indicator" id="indicator"></div>
+    </nav>
+
+    <div class="button-group" style="display: flex; align-items: center;">
+      {% if site_settings %}
+        <a href="{{ site_settings.prendre_rdv_url|default:'#' }}" class="cta-button">Prendre RDV</a>
+        <a href="{{ site_settings.se_connecter_url|default:'#' }}" class="cta-button">Se connecter</a>
+      {% else %}
+        <a href="#" class="cta-button">Prendre RDV</a>
+        <a href="#" class="cta-button">Se connecter</a>
+      {% endif %}
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <script>
+  const menu = document.getElementById("menu");
+  const indicator = document.getElementById("indicator");
+  const links = menu ? menu.querySelectorAll("li > a") : [];
+
+  function moveIndicatorTo(el) {
+    if (!menu || !indicator || !el) return;
+
+    // Position relative au parent menu
+    const left = el.offsetLeft;
+    const width = el.offsetWidth;
+    const indicatorWidth = 12; // Doit correspondre à la largeur CSS
+
+    // Calcul pour centrer l'indicateur sous l'élément
+    const indicatorLeft = left + width / 2 - indicatorWidth / 2;
+
+    indicator.style.left = `${indicatorLeft}px`;
+    indicator.style.opacity = 1;
+  }
+
+  if (menu) {
+    links.forEach((link) => {
+      link.parentElement.addEventListener("mouseenter", () => moveIndicatorTo(link));
+      link.parentElement.addEventListener("focus", () => moveIndicatorTo(link));
+    });
+
+    menu.addEventListener("mouseleave", () => {
+      const active = menu.querySelector("a.active");
+      if (active) {
+        moveIndicatorTo(active);
+      } else {
+        indicator.style.opacity = 0;
+      }
+    });
+
+    window.addEventListener("load", () => {
+      const active = menu.querySelector("a.active");
+      if (active) {
+        moveIndicatorTo(active);
+      }
+    });
+  }
+</script>
+</body>
+</html>

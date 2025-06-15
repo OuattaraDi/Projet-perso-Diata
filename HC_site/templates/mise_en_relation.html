@@ -1,0 +1,1086 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plateforme de Mise en Relation Coiffeuses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            /* Nouvelles couleurs */
+            --primary-color: #FC052EFF; /* Rouge vif pour les actions principales */
+            --secondary-color: #F04461FF; /* Rose framboise pour les accents secondaires */
+            --accent-color: #6a0dad; /* Violet foncé pour les titres, textes importants, etc. */
+            --hover-color: #FB2B4EFF; /* Rouge-rose brillant pour les états de survol */
+
+            /* Couleurs de fond et de texte conservées ou ajustées */
+            --light-bg: #fffafc; /* Peut être ajusté si les nouvelles couleurs primaires sont très sombres */
+            --card-bg: #fceafd; /* Idem, ajuster si besoin */
+            --text-color: #333; /* Texte général */
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --dark-overlay: rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            color: var(--accent-color); /* Utilisation du violet foncé pour les titres */
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 3.2em;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary-color); /* Rose framboise pour la ligne sous les titres */
+            border-radius: 2px;
+        }
+
+        .section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            /* Ancienne couleur de fond dégradée supprimée pour la vidéo */
+            background-color: var(--dark-overlay); /* Fallback si la vidéo ne se charge pas ou n'est pas supportée */
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden; /* Important pour masquer les parties de la vidéo qui dépassent */
+        }
+
+        /* Styles pour la vidéo en arrière-plan */
+        .hero video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1; /* Placer la vidéo derrière le contenu */
+            transform: translate(-50%, -50%); /* Centrer la vidéo */
+            object-fit: cover; /* Assurer que la vidéo couvre toute la surface */
+            filter: brightness(0.6); /* Assombrir la vidéo pour une meilleure lisibilité du texte */
+            transition: opacity 0.5s ease-in-out; /* Douce transition */
+        }
+         /* Overlay pour améliorer la lisibilité du texte sur la vidéo */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            
+            z-index: 0; /* Placer l'overlay entre la vidéo et le contenu */
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 1; /* Assurer que le contenu est au-dessus de l'overlay et de la vidéo */
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px var(--shadow-medium);
+            color: white; /* S'assurer que le titre est blanc sur la vidéo */
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            max-width: 700px;
+            color: white; /* S'assurer que le paragraphe est blanc sur la vidéo */
+        }
+
+        .hero .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .hero .btn-group button {
+            background-color: white;
+            color: var(--primary-color); /* Texte des boutons en rouge vif */
+            padding: 18px 35px;
+            border-radius: 35px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            min-width: 220px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+
+        .hero .btn-group button:hover {
+            background-color: var(--accent-color); /* Survol en violet foncé */
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-medium);
+        }
+
+        /* --- Search Bar --- */
+        .search-bar-container {
+            background-color: white;
+            padding: 40px 20px;
+            text-align: center;
+          
+            margin-top: -50px; /* Overlap with hero */
+            position: relative;
+            z-index: 2;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: auto;
+            display: flex;
+            gap: 15px;
+        }
+
+        .search-bar input[type="search"] {
+            flex: 1;
+            padding: 16px 22px;
+            border-radius: 35px;
+            border: 2px solid var(--primary-color); /* Bordure en rouge vif */
+            font-size: 1.05em;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+        }
+
+        .search-bar input[type="search"]:focus {
+            border-color: var(--accent-color); /* Focus en violet foncé */
+            box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.3); /* Utilisation de la couleur accent pour l'ombre */
+        }
+
+        .search-bar button {
+            padding: 16px 30px;
+            border-radius: 35px;
+            border: none;
+            background-color: var(--primary-color); /* Bouton en rouge vif */
+            color: white;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-bar button:hover {
+            background-color: var(--accent-color); /* Survol en violet foncé */
+            transform: translateY(-2px);
+        }
+
+        /* --- Grid Layouts --- */
+        .coiffeuse-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding-top: 20px;
+        }
+
+        .coiffeuse-card, .testimonial {
+            background-color: white;
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 20px var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 380px;
+        }
+
+        .coiffeuse-card:hover, .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px var(--shadow-medium);
+        }
+
+        .coiffeuse-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--card-bg);
+        }
+
+        .coiffeuse-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+            color: var(--primary-color); /* Titre de carte en rouge vif */
+        }
+
+        .stars {
+            color: #ffc107; /* Couleur des étoiles conservée car ce n'est pas dans votre palette */
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        .coiffeuse-card p {
+            font-size: 0.95em;
+            color: #666;
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+
+        .coiffeuse-card .rdv-button {
+            display: inline-block;
+            background-color: var(--primary-color); /* Bouton en rouge vif */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: auto;
+            align-self: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .coiffeuse-card .rdv-button:hover {
+            background-color: var(--accent-color); /* Survol en violet foncé */
+            transform: translateY(-2px);
+        }
+
+        /* Styles pour les éléments cachés par défaut */
+        .hidden-coiffeuse {
+            display: none !important;
+        }
+
+        /* Style pour le bouton "Afficher plus" */
+        #loadMoreCoiffeusesBtn {
+            background-color: #6a0dad;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px var(--shadow-light);
+            display: block; /* S'assurer qu'il prend sa propre ligne */
+            margin: 40px auto 0; /* Centre le bouton avec un espace au-dessus */
+        }
+
+        #loadMoreCoiffeusesBtn:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+        }
+
+
+        /* --- Coiffeuse de la semaine --- */
+        .coiffeuse-of-the-week .coiffeuse-card {
+            max-width: 700px;
+            margin: 40px auto 0;
+            display: flex;
+            flex-direction: row;
+            text-align: left;
+            min-height: auto;
+            padding: 25px;
+        }
+
+        .coiffeuse-of-the-week .coiffeuse-card img {
+            width: 40%;
+            height: auto;
+            min-height: 250px;
+            margin-right: 25px;
+            margin-bottom: 0;
+        }
+
+        .coiffeuse-of-the-week .coiffeuse-card .details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .coiffeuse-of-the-week .coiffeuse-card .rdv-button {
+            align-self: flex-start;
+            margin-top: 20px;
+        }
+
+        /* --- Testimonials --- */
+        .testimonials {
+            background-color: var(--card-bg);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .testimonial strong {
+            display: block;
+            margin-top: 10px;
+            color: var(--accent-color); /* Auteur du témoignage en violet foncé */
+        }
+
+        /* --- Call to Action --- */
+        .cta-section {
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color)); /* Dégradé avec les nouvelles couleurs */
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .cta-section h2::after {
+            background-color: var(--secondary-color); /* Ligne sous le titre CTA en rose framboise */
+        }
+
+        .cta-section .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .cta-section button {
+            background-color: white;
+            color: var(--primary-color); /* Texte des boutons CTA en rouge vif */
+            padding: 18px 35px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 35px;
+            cursor: pointer;
+            min-width: 220px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px var(--shadow-medium);
+        }
+
+        .cta-section button:hover {
+            background-color: var(--hover-color); /* Survol en rouge-rose brillant */
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-medium);
+        }
+
+        /* --- Booking Form Overlay Styles --- */
+        .booking-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-overlay);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .booking-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .booking-form-container {
+            background-color: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-medium);
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        /* Réajustement du padding pour les petits écrans */
+        @media (max-width: 768px) {
+            .booking-form-container {
+                padding: 20px;
+                max-width: 95%;
+            }
+        }
+
+        .booking-overlay.active .booking-form-container {
+            transform: scale(1);
+        }
+
+        .booking-form-container h2 {
+            margin-top: 0;
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-color); /* Titre du modal en rouge vif */
+        }
+
+        .booking-form-container h2::after {
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+        }
+
+        .booking-form-container .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.2s ease;
+        }
+
+        .booking-form-container .close-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .booking-form-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .booking-form-content .coiffeuse-modal-image {
+            max-width: 80%;
+            height: auto;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-bg);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .booking-form-content p {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            color: #555;
+            text-align: center;
+        }
+
+        .booking-form-content strong {
+            color: var(--text-color);
+        }
+
+        .booking-form-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .booking-form-content ul li {
+            background-color: var(--card-bg);
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            display: inline-block;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .booking-form-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        .booking-form-content form label {
+            font-weight: 600;
+            color: var(--accent-color); /* Label en violet foncé */
+        }
+
+        .booking-form-content form input[type="text"],
+        .booking-form-content form input[type="email"],
+        .booking-form-content form input[type="tel"],
+        .booking-form-content form input[type="date"],
+        .booking-form-content form input[type="time"],
+        .booking-form-content form textarea,
+        .booking-form-content form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .booking-form-content form input:focus,
+        .booking-form-content form textarea:focus,
+        .booking-form-content form select:focus {
+            border-color: var(--primary-color); /* Focus en rouge vif */
+            box-shadow: 0 0 0 3px rgba(252, 5, 46, 0.2); /* Utilisation de la nouvelle couleur primary */
+            outline: none;
+        }
+
+        .booking-form-content form button[type="submit"] {
+            background-color: var(--secondary-color); /* Bouton en rose framboise */
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 15px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 250px;
+        }
+
+        .booking-form-content form button[type="submit"]:hover {
+            background-color: var(--hover-color); /* Survol en rouge-rose brillant */
+            transform: translateY(-2px);
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-bar button {
+                width: 100%;
+            }
+
+            .coiffeuse-of-the-week .coiffeuse-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .coiffeuse-of-the-week .coiffeuse-card img {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .coiffeuse-of-the-week .coiffeuse-card .rdv-button {
+                align-self: center;
+            }
+
+            .cta-section h2 {
+                font-size: 2em;
+            }
+
+            /* Le booking-form-container est déjà ajusté pour 768px */
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero .btn-group button,
+            .cta-section button {
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            .booking-form-container {
+                border-radius: 10px;
+                padding: 15px; /* Réduire le padding sur les très petits écrans */
+            }
+             .booking-form-content .coiffeuse-modal-image {
+                max-height: 200px; /* Un peu plus petite sur mobile */
+                max-width: 90%; /* Ajustement pour mobile */
+            }
+
+            /* Assurer que la vidéo est masquée ou remplacée par une image sur très petits écrans si elle pose problème */
+            .hero video {
+                display: none; /* Masquer la vidéo sur les très petits écrans si elle n'est pas optimisée */
+            }
+            .hero::before {
+                /* Si la vidéo est masquée, utiliser le dégradé de couleur comme fallback */
+                background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+                opacity: 1; /* Rendre l'overlay opaque */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% csrf_token %} {# Add this for CSRF token for AJAX requests #}
+
+    <section class="hero">
+        <video autoplay loop muted playsinline poster="{% static 'images/video_poster.jpg' %}">
+            {# Remplacez par le chemin réel de votre vidéo #}
+            <source src="{% static 'videos/video.mp4' %}" type="video/mp4">
+            {# Optionnel: ajoutez d'autres formats pour une meilleure compatibilité #}
+            {# <source src="{% static 'videos/your_video.webm' %}" type="video/webm"> #}
+            Votre navigateur ne supporte pas la lecture de vidéo.
+        </video>
+        {# L'overlay pour le contraste est maintenant géré par le pseudo-élément ::before du .hero #}
+
+        <h1>Besoin d'une coiffeuse près de chez vous ?</h1>
+        <p>Découvrez des professionnelles talentueuses et réservez votre prochaine séance beauté en quelques clics.</p>
+        <div class="btn-group">
+            <button>Prendre RDV</button>
+            <button>Je m'inscris comme coiffeuse</button>
+        </div>
+    </section>
+
+    <div class="search-bar-container">
+        <form class="search-bar" role="search" aria-label="Recherche de coiffeuse">
+            <input type="search" id="searchCoiffeuse" placeholder="Recherchez une coiffeuse, un service, un style..." aria-label="Recherche" />
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+
+    <section class="section">
+        <h2>Coiffeuses les plus recommandées</h2>
+        <div class="coiffeuse-grid" id="recommendedCoiffeusesGrid">
+            {% for coiffeuse in coiffeuses_json|json_parse %}
+                {# Correction: Utilisation de `not` et `and` au lieu de {% continue %} #}
+                {% if not coiffeuse.est_coiffeuse_de_la_semaine and forloop.counter0 < 3 %}
+                <div class="coiffeuse-card" data-coiffeuse-id="{{ coiffeuse.id_coiffeuse }}">
+                    <img src="{{ coiffeuse.image_url|default:'https://source.unsplash.com/random/250x200/?hairdresser' }}" alt="Coiffeuse {{ coiffeuse.nom }}">
+                    <h3>{{ coiffeuse.nom }}</h3>
+                    <div class="stars">
+                        {% for _ in coiffeuse.note_moyenne|floatformat:"0"|make_list %}★{% endfor %}
+                        {% if coiffeuse.note_moyenne < 5 %}
+                            {% for _ in coiffeuse.note_moyenne|subtract_from_five|make_list %}☆{% endfor %}
+                        {% endif %}
+                    </div>
+                    <p>Localisation: {{ coiffeuse.localisation }}</p>
+                    <p>Spécialités: {{ coiffeuse.specialites|join:", " }}</p>
+                    <button class="rdv-button" data-coiffeuse-id="{{ coiffeuse.id_coiffeuse }}">Prendre RDV</button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="section coiffeuse-of-the-week">
+        <h2>Coiffeuse de la semaine : {% for coiffeuse in coiffeuses_json|json_parse %}{% if coiffeuse.est_coiffeuse_de_la_semaine %}{{ coiffeuse.nom }}{% endif %}{% endfor %}</h2>
+        {% for coiffeuse in coiffeuses_json|json_parse %}
+            {% if coiffeuse.est_coiffeuse_de_la_semaine %}
+            <div class="coiffeuse-card" data-coiffeuse-id="{{ coiffeuse.id_coiffeuse }}">
+                <img src="{{ coiffeuse.image_url|default:'https://source.unsplash.com/random/500x300/?professional,hairdresser' }}" alt="Coiffeuse {{ coiffeuse.nom }}">
+                <div class="details">
+                    <h3>{{ coiffeuse.nom }}</h3>
+                    <div class="stars">
+                        {% for _ in coiffeuse.note_moyenne|floatformat:"0"|make_list %}★{% endfor %}
+                        {% if coiffeuse.note_moyenne < 5 %}
+                            {% for _ in coiffeuse.note_moyenne|subtract_from_five|make_list %}☆{% endfor %}
+                        {% endif %}
+                    </div>
+                    <p>Âge: {{ coiffeuse.age|default:"Non spécifié" }}</p>
+                    <p>Localisation: {{ coiffeuse.localisation }}</p>
+                    <p>Spécialités : {{ coiffeuse.specialites|join:", " }}</p>
+                    <p>{{ coiffeuse.description|default:"Découvrez le talent exceptionnel de cette coiffeuse." }}</p>
+                    <button class="rdv-button" data-coiffeuse-id="{{ coiffeuse.id_coiffeuse }}">Prendre RDV</button>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </section>
+
+    <section class="section">
+        <h2>Explorez toutes nos coiffeuses</h2>
+        <div class="coiffeuse-grid" id="allCoiffeusesGrid">
+            {% for coiffeuse in coiffeuses_json|json_parse %}
+                {# Ajout de la classe 'hidden-coiffeuse' pour les éléments au-delà des 9 premiers #}
+                <div class="coiffeuse-card {% if forloop.counter > 9 %}hidden-coiffeuse{% endif %}" data-coiffeuse-id="{{ coiffeuse.id_coiffeuse }}">
+                    <img src="{{ coiffeuse.image_url|default:'https://source.unsplash.com/random/250x200/?hairdresser' }}" alt="Coiffeuse {{ coiffeuse.nom }}">
+                    <h3>{{ coiffeuse.nom }}</h3>
+                    <div class="stars">
+                        {% for _ in coiffeuse.note_moyenne|floatformat:"0"|make_list %}★{% endfor %}
+                        {% if coiffeuse.note_moyenne < 5 %}
+                            {% for _ in coiffeuse.note_moyenne|subtract_from_five|make_list %}☆{% endfor %}
+                        {% endif %}
+                    </div>
+                    <p>Localisation: {{ coiffeuse.localisation }}</p>
+                    <p>Spécialités: {{ coiffeuse.specialites|join:", " }}</p>
+                    <button class="rdv-button" data-coiffeuse-id="{{ coiffeuse.id_coiffeuse }}">Prendre RDV</button>
+                </div>
+            {% endfor %}
+        </div>
+        {# Ajout du bouton "Afficher plus" seulement s'il y a plus de 9 coiffeuses #}
+        {% if coiffeuses_json|json_parse|length > 9 %}
+            <button id="loadMoreCoiffeusesBtn">Afficher plus de coiffeuses</button>
+        {% endif %}
+    </section>
+
+
+
+
+    <div class="booking-overlay" id="bookingOverlay">
+        <div class="booking-form-container">
+            <button class="close-btn" id="closeBookingForm">&times;</button>
+            <h2 id="formCoiffeuseName"></h2>
+            <div class="booking-form-content">
+                {# Nouvelle balise image ici #}
+                <img id="formCoiffeuseImage" class="coiffeuse-modal-image" src="" alt="Photo de la coiffeuse">
+
+                <p><strong>Âge:</strong> <span id="formCoiffeuseAge"></span></p>
+                <p><strong>Localisation:</strong> <span id="formCoiffeuseLocation"></span></p>
+                <p><strong>Compétences:</strong></p>
+                <ul id="formCoiffeuseSkills"></ul>
+                <p><strong>Disponibilités:</strong> <span id="formCoiffeuseAvailability"></span></p>
+                <p><strong>Adresse de rendez-vous:</strong> <span id="formCoiffeuseAddressHint"></span></p> {# Added for hint #}
+
+                <form id="bookingForm" method="POST"> {# Added id and method #}
+                    {% csrf_token %} {# CSRF token for the form #}
+                    <input type="hidden" id="coiffeuseId" name="coiffeuseId"> {# Hidden input for coiffeuse ID #}
+
+                    <h3>Vos informations pour la réservation</h3>
+                    <label for="clientName">Nom Complet:</label>
+                    <input type="text" id="clientName" name="clientName" required>
+
+                    <label for="clientEmail">Email:</label>
+                    <input type="email" id="clientEmail" name="clientEmail" required>
+
+                    <label for="clientPhone">Téléphone:</label>
+                    <input type="tel" id="clientPhone" name="clientPhone">
+
+                    <label for="rdvAddress">Adresse du rendez-vous:</label> {# Added this field #}
+                    <input type="text" id="rdvAddress" name="rdvAddress" placeholder="Ex: 123 Rue de la Coiffure, Appt 4B" required>
+
+                    <label for="rdvDate">Date souhaitée:</label>
+                    <input type="date" id="rdvDate" name="rdvDate" required>
+
+                    <label for="rdvTime">Heure souhaitée:</label>
+                    <input type="time" id="rdvTime" name="rdvTime" required>
+
+                    <label for="serviceType">Service souhaité:</label>
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="">Sélectionnez un service</option>
+                        <option value="coupe">Coupe et brushing</option>
+                        <option value="tresse">Tresses africaines</option>
+                        <option value="couleur">Coloration / Mèches</option>
+                        <option value="soins">Soins capillaires</option>
+                        <option value="perruques">Pose de perruques</option>
+                        <option value="mariage">Coiffure mariage</option>
+                        <option value="barbe">Taille de barbe (pour David)</option>
+                        <option value="enfants">Coiffure enfants</option>
+                        <option value="autre">Autre</option>
+                    </select>
+
+                    <label for="message">Message pour la coiffeuse (optionnel):</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+
+                    <button type="submit">Confirmer la réservation</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Get coiffeuses data from Django context
+    const coiffeusesData = JSON.parse('{{ coiffeuses_json|escapejs }}');
+    const bookingButtons = document.querySelectorAll('.rdv-button');
+    const bookingOverlay = document.getElementById('bookingOverlay');
+    const closeBookingFormBtn = document.getElementById('closeBookingForm');
+    const formCoiffeuseName = document.getElementById('formCoiffeuseName');
+    const formCoiffeuseImage = document.getElementById('formCoiffeuseImage'); // Nouvelle référence à l'image
+    const formCoiffeuseAge = document.getElementById('formCoiffeuseAge');
+    const formCoiffeuseLocation = document.getElementById('formCoiffeuseLocation');
+    const formCoiffeuseSkills = document.getElementById('formCoiffeuseSkills');
+    const formCoiffeuseAvailability = document.getElementById('formCoiffeuseAvailability');
+    const formCoiffeuseAddressHint = document.getElementById('formCoiffeuseAddressHint');
+    const hiddenCoiffeuseId = document.getElementById('coiffeuseId');
+    const bookingForm = document.getElementById('bookingForm');
+
+    // Helper to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrfToken = getCookie('csrftoken');
+
+    bookingButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const coiffeuseId = button.dataset.coiffeuseId;
+            const coiffeuse = coiffeusesData.find(c => c.id_coiffeuse === coiffeuseId);
+
+            if (coiffeuse) {
+                formCoiffeuseName.textContent = `Prendre RDV avec ${coiffeuse.nom}`;
+                // Définir l'image de la coiffeuse dans le modal
+                formCoiffeuseImage.src = coiffeuse.image_url || 'https://source.unsplash.com/random/400x300/?hairdresser';
+                formCoiffeuseImage.alt = `Photo de la coiffeuse ${coiffeuse.nom}`;
+
+                formCoiffeuseAge.textContent = coiffeuse.age || "Non spécifié";
+                formCoiffeuseLocation.textContent = coiffeuse.localisation;
+                formCoiffeuseAvailability.textContent = coiffeuse.disponibilites;
+                formCoiffeuseAddressHint.textContent = coiffeuse.localisation;
+
+                hiddenCoiffeuseId.value = coiffeuse.id_coiffeuse;
+
+                formCoiffeuseSkills.innerHTML = '';
+                if (coiffeuse.specialites && coiffeuse.specialites.length > 0) {
+                    coiffeuse.specialites.forEach(skill => {
+                        const li = document.createElement('li');
+                        li.textContent = skill;
+                        formCoiffeuseSkills.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = "Aucune spécialité listée.";
+                    formCoiffeuseSkills.appendChild(li);
+                }
+
+                bookingOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling background
+            }
+        });
+    });
+
+    closeBookingFormBtn.addEventListener('click', () => {
+        bookingOverlay.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+        bookingForm.reset(); // Clear the form on close
+        formCoiffeuseImage.src = ""; // Clear image on close
+        formCoiffeuseImage.alt = "";
+    });
+
+    // Close on overlay click
+    bookingOverlay.addEventListener('click', (event) => {
+        if (event.target === bookingOverlay) {
+            bookingOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            bookingForm.reset();
+            formCoiffeuseImage.src = ""; // Clear image on close
+            formCoiffeuseImage.alt = "";
+        }
+    });
+
+    // Handle form submission with AJAX
+    bookingForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = {
+            coiffeuseId: document.getElementById('coiffeuseId').value,
+            clientName: document.getElementById('clientName').value,
+            clientEmail: document.getElementById('clientEmail').value,
+            clientPhone: document.getElementById('clientPhone').value,
+            rdvAddress: document.getElementById('rdvAddress').value,
+            rdvDate: document.getElementById('rdvDate').value,
+            rdvTime: document.getElementById('rdvTime').value,
+            serviceType: document.getElementById('serviceType').value,
+            message: document.getElementById('message').value
+        };
+
+        try {
+            const currentPageSlug = "{{ page.slug|escapejs }}";
+            const url = `/${currentPageSlug}/`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message);
+                bookingOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                bookingForm.reset();
+                formCoiffeuseImage.src = ""; // Clear image on close
+                formCoiffeuseImage.alt = "";
+            } else {
+                alert('Erreur: ' + (result.message || 'La réservation a échoué.'));
+            }
+        } catch (error) {
+            console.error('Erreur lors de la soumission du formulaire:', error);
+            alert('Une erreur réseau est survenue. Veuillez réessayer.');
+        }
+    });
+
+    // --- Fonctionnalité "Afficher plus" pour "Explorez toutes nos coiffeuses" ---
+    const allCoiffeuseCards = Array.from(document.querySelectorAll('#allCoiffeusesGrid .coiffeuse-card'));
+    const loadMoreBtn = document.getElementById('loadMoreCoiffeusesBtn');
+    const itemsPerLoad = 9; // Nombre d'éléments à afficher par défaut et à chaque clic
+
+    let currentlyDisplayedItems = itemsPerLoad; // Initialisé à 9 car les 9 premiers sont visibles par défaut
+
+    // Fonction pour afficher la prochaine série de coiffeuses
+    function showMoreCoiffeuses() {
+        const nextBatch = allCoiffeuseCards.slice(currentlyDisplayedItems, currentlyDisplayedItems + itemsPerLoad);
+
+        nextBatch.forEach(card => {
+            card.classList.remove('hidden-coiffeuse'); // Retire la classe qui cache l'élément
+            card.style.display = 'flex'; // Assure que l'élément est visible avec le bon display
+        });
+
+        currentlyDisplayedItems += nextBatch.length;
+
+        // Si tous les éléments sont affichés, cacher le bouton
+        if (currentlyDisplayedItems >= allCoiffeuseCards.length) {
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+    }
+
+    // Vérifier au chargement initial si le bouton "Afficher plus" est nécessaire
+    if (allCoiffeuseCards.length <= itemsPerLoad) {
+        if (loadMoreBtn) {
+            loadMoreBtn.style.display = 'none'; // Cache le bouton s'il y a 9 ou moins de coiffeuses
+        }
+    }
+
+    // Attacher l'écouteur d'événement au bouton "Afficher plus"
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', showMoreCoiffeuses);
+    }
+
+    // --- Fonctionnalité de recherche (mise à jour pour interagir avec "Afficher plus") ---
+    const searchInput = document.getElementById('searchCoiffeuse');
+
+    function filterCoiffeuses() {
+        const searchTerm = searchInput.value.toLowerCase();
+        let anyMatchFound = false;
+
+        allCoiffeuseCards.forEach((card, index) => {
+            const name = card.querySelector('h3').textContent.toLowerCase();
+            const location = card.querySelector('p:nth-of-type(1)').textContent.toLowerCase();
+            const specialties = card.querySelector('p:nth-of-type(2)').textContent.toLowerCase(); // Assurez-vous que le sélecteur est correct
+
+            if (name.includes(searchTerm) || location.includes(searchTerm) || specialties.includes(searchTerm)) {
+                card.style.display = 'flex'; // Affiche la carte si elle correspond
+                anyMatchFound = true;
+            } else {
+                card.style.display = 'none'; // Cache la carte si elle ne correspond pas
+            }
+        });
+
+        // Gérer l'état du bouton "Afficher plus" et la visibilité après la recherche
+        if (searchTerm === '') {
+            // Si la recherche est vide, revenir à l'état initial avec la pagination
+            currentlyDisplayedItems = itemsPerLoad; // Réinitialise le compteur d'éléments affichés
+            allCoiffeuseCards.forEach((card, index) => {
+                if (index >= itemsPerLoad) {
+                    card.style.display = 'none';
+                    card.classList.add('hidden-coiffeuse');
+                } else {
+                    card.style.display = 'flex';
+                    card.classList.remove('hidden-coiffeuse');
+                }
+            });
+            if (loadMoreBtn && allCoiffeaseCards.length > itemsPerLoad) {
+                loadMoreBtn.style.display = 'block'; // Réaffiche le bouton si nécessaire
+            } else if (loadMoreBtn) {
+                loadMoreBtn.style.display = 'none'; // Cache le bouton s'il n'y a plus rien à charger
+            }
+        } else {
+            // Si un terme de recherche est actif, cacher le bouton "Afficher plus"
+            // car la recherche affiche tous les résultats pertinents d'un coup.
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+    }
+
+    // Attacher l'écouteur d'événement pour l'input de recherche
+    searchInput.addEventListener('input', filterCoiffeuses);
+    document.querySelector('.search-bar button[type="submit"]').addEventListener('click', (event) => {
+        event.preventDefault(); // Empêche le rechargement de la page
+        filterCoiffeuses();
+    });
+
+</script>
+</body>
+</html>

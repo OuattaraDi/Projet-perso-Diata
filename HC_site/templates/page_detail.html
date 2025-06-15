@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+    {% for section in sections %}
+        {% if section.template_name == "carousel.html" %}
+            {% include section.template_name with section=section slides=slides %}
+        {% else %}
+            {% include section.template_name with section=section %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

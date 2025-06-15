@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Section Inscription</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .signup-section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 50px 20px;
+      overflow-x: visible;
+    }
+
+    .signup-card {
+      flex: 1 1 calc(33.333% - 20px);
+      height: 300px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 30px 20px;
+      color: white;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      box-sizing: border-box;
+      min-width: 280px;
+    }
+
+    .signup-card:hover {
+      transform: scale(1.01);
+    }
+
+    .signup-text-content {
+      max-width: 55%;
+      text-align: left; /* Alignement à gauche */
+    }
+
+    .signup-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: white; /* Texte en blanc */
+    }
+
+    .signup-description {
+      font-size: 18px;
+      line-height: 1.6;
+      color: white; /* Texte en blanc */
+    }
+
+    .signup-image {
+      height: 100%;
+      object-fit: contain;
+      max-width: 40%;
+    }
+
+    .signup-arrow-icon {
+      width: 35px;
+      height: 35px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      position: absolute;
+      bottom: 30px;
+    }
+
+    .card-user {
+      background-color: #6a0dad; /* Violet */
+    }
+
+    .card-user .signup-arrow-icon {
+      left: 20px;
+    }
+
+    .card-user .signup-arrow-icon::before {
+      content: '→';
+    }
+
+    .card-pro {
+      background-color: #FB2B4EFF; /* Rose */
+    }
+
+    .card-pro .signup-arrow-icon {
+      right: 20px;
+    }
+
+    .card-pro .signup-arrow-icon::before {
+      content: '←';
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .signup-card {
+        flex: 1 1 100%;
+        height: auto;
+        flex-direction: column;
+        padding: 20px;
+        min-width: auto;
+      }
+
+      .signup-text-content {
+        max-width: 100%;
+        text-align: left;
+      }
+
+      .signup-image {
+        max-width: 100%;
+        height: 200px;
+        margin-top: 20px;
+      }
+
+      .signup-arrow-icon {
+        position: static;
+        margin-top: 20px;
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-section-container">
+    {% for bloc in blocs_mise_en_relation %}
+      <div class="signup-card {% cycle 'card-user' 'card-pro' %}" onclick="window.location.href='{{ bloc.url|default:'#' }}';">
+        <div class="signup-text-content">
+          <h2 class="signup-title">{{ bloc.titre }}</h2>
+          <p class="signup-description">{{ bloc.description|linebreaksbr }}</p>
+        </div>
+        <img class="signup-image" src="{{ bloc.image.url }}" alt="{{ bloc.titre }}" />
+        <div class="signup-arrow-icon"></div>
+      </div>
+    {% endfor %}
+  </div>
+
+</body>
+</html>

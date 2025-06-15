@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick - Meilleure Offre</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 150vh;
+    }
+
+    .offer-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 5%;
+      background-color: #fff;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .offer-content {
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+
+    .offer-content h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: #E4002B;
+      font-size: 3.5em;
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .offer-content h1 span {
+      display: inline-block;
+      will-change: transform;
+      transition: transform 0.05s linear;
+    }
+
+    .offer-content .title {
+      color: #333;
+      font-size: 1.2em;
+      margin: 20px 0;
+      max-width: 600px;
+    }
+
+    .order-button, .btn {
+      display: inline-block;
+      background-color: #E4002B;
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .order-button:hover, .btn:hover {
+      background-color: #C00020;
+    }
+
+    .offer-image {
+      flex: 1 1 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .offer-image img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    @media (max-width: 1024px) {
+      .offer-content h1 {
+        font-size: 3em;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .offer-section {
+        flex-direction: column;
+        padding: 30px 5%;
+        width: 100%;
+      }
+
+      .offer-content {
+        text-align: center;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .offer-content h1 {
+        font-size: 2.5em;
+      }
+
+      .offer-content .title {
+        font-size: 1em;
+      }
+
+      .offer-image img {
+        max-width: 300px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .offer-content h1 {
+        font-size: 2em;
+      }
+
+      .offer-content .title {
+        font-size: 0.9em;
+      }
+
+      .order-button, .btn {
+        padding: 12px 25px;
+        font-size: 1em;
+      }
+
+      .offer-image img {
+        max-width: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+{% if aproposaccueil %}
+<section class="offer-section">
+  <div class="offer-content">
+    <h1>
+      <span id="offerLine1">{{ aproposaccueil.titre_ligne_1 }}</span><br>
+      <span id="offerLine2">{{ aproposaccueil.titre_ligne_2 }}</span><br>
+      <span id="offerLine3">{{ aproposaccueil.titre_ligne_3 }}</span>
+    </h1>
+    <div class="title">{{ aproposaccueil.description }}</div>
+    {% if aproposaccueil.lien_bouton %}
+      <a href="{{ aproposaccueil.lien_bouton }}" class="btn">{{ aproposaccueil.texte_bouton }}</a>
+    {% else %}
+      <button class="btn">{{ aproposaccueil.texte_bouton }}</button>
+    {% endif %}
+  </div>
+  <div class="offer-image">
+    <img src="{{ aproposaccueil.image.url }}" alt="Image de l'offre" />
+  </div>
+</section>
+{% else %}
+  <p style="color: red; text-align: center;">Aucune donnée 'À propos' trouvée.</p>
+{% endif %}
+
+<script>
+  const offerLine1 = document.getElementById('offerLine1');
+  const offerLine2 = document.getElementById('offerLine2');
+  const offerLine3 = document.getElementById('offerLine3');
+  const offerSection = document.querySelector('.offer-section');
+
+  window.addEventListener('scroll', () => {
+    const sectionRect = offerSection.getBoundingClientRect();
+    const sectionTop = sectionRect.top;
+    const sectionHeight = sectionRect.height;
+    const viewportHeight = window.innerHeight;
+
+    let scrollProgress = 0;
+    if (sectionTop < viewportHeight && sectionTop + sectionHeight > 0) {
+      scrollProgress = (viewportHeight - sectionTop) / (viewportHeight + sectionHeight);
+    }
+
+    const movementRange = 100;
+    const moveLeft = scrollProgress * -movementRange;
+    const moveRight = scrollProgress * movementRange;
+
+    offerLine1.style.transform = `translateX(${moveLeft}px)`;
+    offerLine2.style.transform = `translateX(${moveRight}px)`;
+    offerLine3.style.transform = `translateX(${moveLeft}px)`;
+  });
+</script>
+
+</body>
+</html>
