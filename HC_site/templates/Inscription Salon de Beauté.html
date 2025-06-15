@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Présentation de Service</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* SECTION – Titres */
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::before {
+      content: "";
+      position: absolute;
+      left: -60px;
+      top: 5px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: #FF98AAFF;
+      z-index: -1;
+    }
+
+    /* SECTION : Comment travaillons-nous ? */
+    .how-we-work {
+      max-width: 1000px;
+    }
+
+    .how-we-work p {
+      color: #aaa;
+      margin-top: 0;
+      margin-bottom: 40px;
+      font-size: 16px;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+    }
+
+    .step {
+      flex: 1 1 calc(50% - 40px);
+      max-width: calc(50% - 40px);
+    }
+
+    .step h3 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .step span.number {
+      color: #FB2B4EFF;
+      font-size: 40px;
+      margin-right: 10px;
+      font-weight: 600;
+    }
+
+    .step p {
+      color: #777;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    /* SECTION – Héros */
+    .hero-section {
+      background-image: url('https://img.freepik.com/photos-premium/concepts-design-interieur-3d-pour-maison_734629-79.jpg?uid=R83894721&ga=GA1.1.1856038713.1716820850&w=740');
+      background-size: cover;
+      background-position: center;
+      padding: 120px 20px 160px;
+      position: relative;
+      color: white;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4); /* assombrit l'image */
+      z-index: 0;
+    }
+
+    .hero-section h1,
+    .hero-section button {
+      position: relative;
+      z-index: 1; /* au-dessus de l'overlay */
+      align-self: center;
+    }
+
+    .hero-section h1 {
+      font-size: 44px;
+      font-weight: 500;
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    .hero-section h1 strong {
+      font-weight: 800;
+    }
+
+    .hero-section button {
+      margin-top: 30px;
+      padding: 14px 30px;
+      background-color: #FB2B4EFF;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* FORMULAIRE */
+    .form-section {
+      max-width: 700px;
+      margin: 80px auto;
+      text-align: center;
+    }
+
+    .form-section h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .form-section h2::before {
+      content: "";
+      position: absolute;
+      left: -60px;
+      top: 5px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: #FF98AAFF;
+      z-index: -1;
+    }
+
+    .form-wrapper {
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      padding: 40px 50px 50px;
+      border-radius: 12px;
+      color: #333;
+      margin-top: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    select,
+    textarea {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+      width: 100%;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #FB2B4EFF;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    button[type="submit"] {
+      background-color: #FB2B4EFF;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      font-weight: 700;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      align-self: center;
+      width: auto;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #6a0dad;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .step {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      .hero-section {
+        padding-bottom: 240px;
+      }
+
+      .form-wrapper {
+        padding: 30px 25px 40px;
+        max-width: 90%;
+      }
+
+      .section-title,
+      .form-section h2 {
+        font-size: 28px;
+      }
+
+      .section-title::before,
+      .form-section h2::before {
+        width: 80px;
+        height: 80px;
+        left: -40px;
+        top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SECTION HÉROS -->
+  <section class="hero-section">
+    <h1><strong>Boostez</strong> la <strong>visibilité</strong> de <strong>votre salon</strong> recevez <strong>plus de réservations !</strong></h1>
+    <button onclick="location.href='#formulaire'">S'inscrire</button>
+  </section>
+
+  <!-- SECTION COMMENT TRAVAILLONS-NOUS -->
+  <div class="container">
+    <section class="how-we-work">
+      <h2 class="section-title">Comment collaborons-nous avec les salons partenaires ?</h2>
+      <p>Notre stratégie de collaboration</p>
+
+      <div class="steps">
+        <div class="step">
+          <h3><span class="number">1.</span>Prise de contact</h3>
+          <p>Vous remplissez notre formulaire pour nous présenter votre salon, vos services et vos disponibilités.</p>
+        </div>
+        <div class="step">
+          <h3><span class="number">2.</span>Analyse & validation</h3>
+          <p>Notre équipe examine votre profil, vérifie la qualité de vos prestations et valide votre éligibilité en tant que salon partenaire.</p>
+        </div>
+        <div class="step">
+          <h3><span class="number">3.</span>Signature du partenariat</h3>
+          <p>Une fois validé, vous signez un contrat de collaboration flexible et sans engagement à long terme.</p>
+        </div>
+        <div class="step">
+          <h3><span class="number">4.</span>Mise en ligne & visibilité</h3>
+          <p>Votre salon est publié sur notre plateforme. Vous gagnez en visibilité et recevez directement des demandes de rendez-vous de nouvelles clientes.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FORMULAIRE SALON DE BEAUTÉ -->
+  <section id="formulaire" class="form-section">
+    <h2>Inscription Salon de Beauté</h2>
+    <div class="form-wrapper" aria-label="Formulaire d'inscription salon de beauté">
+      <form action="#" method="post">
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" placeholder="Votre nom complet" required />
+
+        <label for="location">Localisation</label>
+        <input type="text" id="location" name="location" placeholder="Votre ville ou quartier" required />
+
+        <label for="service">Prestation</label>
+        <select id="service" name="service" required>
+          <option value="" disabled selected>Choisissez une prestation</option>
+          <option value="coiffure">Coiffure</option>
+          <option value="soins_visage">Soins du visage</option>
+          <option value="manucure">Manucure</option>
+          <option value="maquillage">Maquillage</option>
+          <option value="autre">Autre</option>
+        </select>
+
+        <label for="hours">Heures d'ouverture</label>
+        <input type="text" id="hours" name="hours" placeholder="Ex: 9h - 18h, Lun-Ven" required />
+
+        <label for="description">Description (optionnel)</label>
+        <textarea id="description" name="description" placeholder="Parlez un peu de votre salon..."></textarea>
+
+        <button type="submit">Envoyer la demande</button>
+      </form>
+    </div>
+  </section>
+
+</body>
+</html>

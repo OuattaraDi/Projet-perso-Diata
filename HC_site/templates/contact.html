@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contactez-Nous</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      color: #333;
+    }
+
+.map-container {
+  height: 500px;               /* hauteur réduite */
+  max-width: 1000px;            /* limite la largeur (optionnel) */
+  margin: 0 auto;              /* centre horizontalement */
+  padding: 20px 0;             /* espace au-dessus et en-dessous */
+  margin-bottom: 40px;
+}
+
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+.contact-section {
+  padding: 20px;
+}
+
+.contact-content {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px; /* 👈 réduit l'espace horizontal */
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.contact-text {
+  flex: none;
+  width: 45%;
+  min-width: 280px;
+}
+
+.contact-form {
+  flex: none;
+  width: 50%;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+
+    .contact-section h5 {
+      color: #e5194a;
+      margin: 0;
+    }
+
+    .contact-section h2 {
+      font-size: 32px;
+      margin: 10px 0;
+    }
+
+    .contact-section p {
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+    }
+
+    .contact-form textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      background-color: #e5194a;
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 16px;
+      cursor: pointer;
+      width: fit-content;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background-color: #6a0dad;/* couleur plus foncée au survol */
+    }
+
+    .info-boxes {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px 20px;
+      background: #fff;
+      flex-wrap: wrap;
+    }
+
+    .info-box {
+  background: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  width: 220px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.info-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.info-box .icon {
+  font-size: 24px;
+  color: white;
+  background: #e5194a;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  transition: background-color 0.3s ease;
+}
+
+.info-box:hover .icon {
+  background-color: #6a0dad;
+}
+
+.info-box h3 {
+  color: #e5194a;
+  font-size: 20px;
+  margin: 10px 0;
+  transition: color 0.3s ease;
+}
+
+.info-box:hover h3 {
+  color: #6a0dad; /* Couleur changée au survol */
+}
+
+
+    .team-section {
+      text-align: center;
+      padding: 100px 20px;
+      color: white;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden; /* évite débordements */
+    }
+
+    .team-section h2 {
+      font-size: 48px;
+      margin: 0;
+    }
+
+    .team-section p {
+      font-size: 20px;
+    }
+
+    .team-section a {
+      display: inline-block;
+      background:#e5194a;
+      color: white;
+      padding: 15px 30px;
+      font-size: 16px;
+      margin-top: 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .team-section a:hover {
+      background-color: #6a0dad;
+      
+    }
+    .team-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* noir semi-transparent pour assombrir */
+  z-index: 0; /* sous le texte */
+}
+
+.team-section h2,
+.team-section p,
+.team-section a {
+  position: relative;
+  z-index: 1; /* au-dessus de la couche noire */
+}
+  </style>
+</head>
+<body>
+
+  <!-- Équipe -->
+  {% if team_section %}
+  <section class="team-section" {% if team_section.image_background %}style="background-image: url('{{ team_section.image_background.url }}');"{% endif %}>
+    <h2>{{ team_section.titre }}</h2>
+    <p>{{ team_section.sous_titre }}</p>
+    <a href="#contact">{{ team_section.texte_bouton }}</a>
+  </section>
+  {% endif %}
+
+  <!-- Infos de contact -->
+  <section class="info-boxes">
+    {% for info in contact_infos %}
+    <div class="info-box">
+      <div class="icon"><i class="fas {{ info.icone }}"></i></div>
+      <h3>{{ info.titre }}</h3>
+      <p>{{ info.contenu }}</p>
+    </div>
+    {% endfor %}
+  </section>
+
+  <!-- Carte Google Maps -->
+  {% if map_section and map_section.map_link %}
+  <div class="map-container">
+      <iframe
+          src="{{ map_section.map_link }}"
+          width="100%"
+          height="450"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+  </div>
+  {% else %}
+  <p>Aucune carte disponible pour le moment.</p>
+  {% endif %}
+
+  <!-- Formulaire -->
+<!-- Formulaire -->
+<section class="contact-section" id="contact">
+  <div class="contact-content">
+    <div class="contact-text">
+      <h5>ENTRER EN CONTACT</h5>
+      <h2>CONTACTEZ-NOUS</h2>
+      <p>Les usines sont apparues avec l'introduction des machines pendant la révolution industrielle...</p>
+    </div>
+
+    <form method="post" action="{% url 'contact_message' %}" class="contact-form">
+      {% csrf_token %}
+      <input type="text" name="nom" placeholder="Votre nom (*)" required>
+      <input type="email" name="email" placeholder="Votre e-mail (*)" required>
+      <input type="text" name="sujet" placeholder="Sujet">
+      <textarea name="message" placeholder="Votre message" required></textarea>
+      <button type="submit" name="contact_form_submit">Envoyer un message</button>
+    </form>
+  </div>
+</section>
+
+
+</body>
+</html>

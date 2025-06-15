@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Service Showcase - Carrousel Infini Fluide</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"/>
+  <style>
+    :root {
+      --animation-duration: 40s;
+      --scroll-distance: -50%;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #fff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 400px; /* Hauteur augmentée */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1; /* Derrière le carrousel */
+    }
+
+    .main-title,
+    .hero-section h1 {
+      color: white;
+      font-size: 3.5em;
+      font-weight: 700;
+      text-align: center;
+      padding: 0 20px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      position: relative;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4); /* assombrit l'image */
+      z-index: 0;
+    }
+
+    .carousel-container {
+      position: relative;
+      top: -100px; /* Remonte le carrousel devant le titre */
+      width: 100%;
+      max-width: 5000px;
+      padding: 20px 0;
+      overflow: visible;
+      z-index: 2; /* Devant le titre */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 25px;
+      animation: scroll-left var(--animation-duration) linear infinite;
+    }
+
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(var(--scroll-distance)); }
+    }
+
+    .card {
+      flex-shrink: 0;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 250px;
+      height: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .star-rating {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 3px 6px;
+      border-radius: 5px;
+      display: flex;
+    }
+
+    .star-rating i {
+      color: #e5194a;
+      font-size: 13px;
+      margin-right: 2px;
+    }
+
+    .card img {
+      width: 200px;
+      height: 1060px;
+      object-fit: contain;
+      margin-bottom: 0px;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .location {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .location i {
+      margin-right: 6px;
+    }
+
+    .register-button {
+      background-color: #e5194a;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      font-size: 0.95em;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 40px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      text-align: center;
+    }
+
+    .register-button:hover {
+      background-color: #6a0dad;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .hero-section h1 { font-size: 2.5em; }
+      .card { width: 200px; height: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+{% load static %}
+<div class="hero-section" style="background-image: url('{% static 'images/fond-spa.jpg' %}');">
+  <h1>Les salons les plus recommandés</h1>
+</div>
+
+<div class="carousel-container">
+  <div class="carousel-track" id="carouselTrack">
+    {% for salon in salons %}
+      <div class="card">
+        <div class="star-rating">
+          {% for i in "12345" %}
+            <i class="fas fa-star"></i>
+          {% endfor %}
+        </div>
+
+        {% if salon.logo %}
+          <img src="{{ salon.logo.url }}" alt="Logo de {{ salon.nom }}">
+        {% else %}
+          <img src="https://via.placeholder.com/200x160?text=Logo+Salon" alt="Logo manquant">
+        {% endif %}
+
+        <h3>{{ salon.nom }}</h3>
+
+        <div class="location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>{{ salon.localisation }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if url_bouton %}
+    <a href="{{ url_bouton }}" class="register-button" target="_blank">
+      {{ texte_bouton }}
+    </a>
+  {% else %}
+    <span class="register-button" style="background-color: #ccc; cursor: not-allowed;">
+      {{ texte_bouton }}
+    </span>
+  {% endif %}
+</div>
+
+</body>
+</html>

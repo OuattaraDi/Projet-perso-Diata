@@ -1,0 +1,83 @@
+{% load static %}
+<style>
+    /* Styles spécifiques au footer */
+
+
+    
+    .ft-fast-food-footer {
+        background-color: #6a0dad; /* Violet comme dans votre footer.html fourni */
+        color: #fff;
+        padding: 20px 50px;
+        
+     
+        text-align: center;
+       
+    }
+
+    .ft-logo-container {
+        margin-bottom: 30px;
+    }
+
+    .ft-principal-logo { /* La classe sur l'image du logo */
+        width: 100px; /* Ajustez la taille selon votre image de logo */
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .ft-social-icons {
+        margin-bottom: 15px;
+    }
+
+    .ft-social-icons a {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 35px;
+        height: 35px;
+        background-color: #6a0dad; /* Couleur de fond des icônes de réseaux sociaux */
+        border: 2px solid #fff;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 1.2em;
+        margin: 0 10px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .ft-social-icons a:hover {
+        background-color: #cc0000; /* Rouge au survol - tel que dans votre fichier */
+        border-color: #f0f0f0;
+    }
+
+    .ft-address {
+        font-size: 0.9em;
+        opacity: 0.8;
+    }
+
+    .ft-address i {
+        margin-right: 5px;
+    }
+</style>
+
+<div class="ft-fast-food-footer"> {# Utilisation des classes uniques #}
+    <div class="ft-logo-container">
+        {% if footer_settings.principal_logo %}
+            <img src="{{ footer_settings.principal_logo.url }}" alt="Fast Food Logo" class="ft-principal-logo" />
+        {% else %}
+            <p style="font-size: 2em; font-weight: bold; margin: 0;">FAST FOOD</p>
+        {% endif %}
+    </div>
+
+    <div class="ft-social-icons">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+    </div>
+
+    <div class="ft-address">
+        <i class="fas fa-map-marker-alt"></i> {{ footer_settings.location_name }}
+    </div>
+</div>

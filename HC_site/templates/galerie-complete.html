@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Galerie</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff;
+      color: #111;
+    }
+
+    /* Vidéo en fond */
+.video-header {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.video-header video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* degré de noir */
+  z-index: -1;
+}
+
+.video-text {
+  z-index: 1;
+  position: relative;
+}
+
+.video-text h1 {
+  font-size: 60px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.video-text p {
+  font-size: 20px;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+    .gallery-section {
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+
+  <!-- SECTION VIDÉO -->
+<section class="video-header">
+  <video autoplay muted loop>
+    <source src="https://videocdn.cdnpk.net/videos/162273fa-1331-4d66-a719-51bcf64e947f/horizontal/previews/clear/small.mp4?token=exp=1749918465~hmac=1cdb5f4c7a38f8f858a526f89fde3bac9032e4fda981042b202ef45b132b98b7" type="video/mp4">
+    Votre navigateur ne supporte pas les vidéos HTML5.
+  </video>
+  <div class="overlay"></div>
+  <div class="video-text">
+    <h1>GALERIE</h1>
+    <p>Explorez quelques coiffures pour vous sublimer</p>
+  </div>
+</section>
+
+
+
+
+  <!-- SECTION GALERIE -->
+  <section class="gallery-section">
+    <div class="gallery-grid">
+      {% for image in images_completes %}
+        <div class="gallery-item">
+          <img src="{{ image.image.url }}" alt="Image galerie">
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</body>
+</html>

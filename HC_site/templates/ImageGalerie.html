@@ -1,0 +1,132 @@
+{% load static %}
+<style>
+    /* Importer la police pour le titre */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;600&display=swap');
+
+    /* Rappel : Les styles 'body' et '*' globaux doivent être dans page_detail.html */
+    /* Assurez-vous que ce composant ne contient pas de règles CSS 'body' ou '*' */
+
+    .gal-gallery-section { /* Renommé */
+        padding: 60px 20px;
+        width: 100%; /* Utilisez 100% au lieu de 100vw pour s'adapter au conteneur parent (body) */
+        box-sizing: border-box;
+        text-align: center;
+        background: transparent;
+    }
+
+    .gal-title { /* Renommé */
+        text-align: left;
+        margin-left: 80px; /* Conserver la marge pour le titre si c'est spécifique */
+        max-width: 1200px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .gal-subtitle { /* Renommé */
+        display: inline-block;
+        font-size: 16px;
+        color: #6a0dad;
+        margin-bottom: 10px;
+        border-top: 2px solid #6a0dad;
+        padding-top: 5px;
+    }
+
+    h2 { /* Cible le titre principal de cette section */
+        font-family: 'Montserrat', sans-serif; /* Police Montserrat appliquée ici */
+        font-size: 28px;
+        font-weight: 700; /* Assuré pour Montserrat */
+        color: #E4002B;
+        margin: 0 0 40px;
+    }
+
+    .gal-gallery { /* Renommé */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Ajusté pour une meilleure flexibilité sur 6 colonnes */
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto 40px auto;
+        justify-items: center;
+    }
+
+    .gal-img { /* Renommé */
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+        border: 3px solid transparent;
+        cursor: pointer;
+    }
+
+    .gal-img:hover { /* Renommé */
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        border: 3px solid #6a0dad;
+    }
+
+    .gal-button-container { /* Renommé */
+        margin-top: 10px;
+    }
+
+    .gal-btn { /* Renommé */
+        background: #E4002B;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px;
+        text-decoration: none;
+        box-shadow: 0 5px 10px rgba(255, 155, 255, 0.4);
+        font-weight: bold;
+        transition: 0.3s ease;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .gal-btn:hover { /* Renommé - LA COULEUR EST DÉJÀ VIOLETTE */
+        background-color: #6a0dad; /* Violet */
+    }
+
+    /* Media Queries pour le responsive */
+    @media (max-width: 768px) {
+        .gal-title {
+            margin-left: 20px; /* Ajuster pour mobile */
+            text-align: center; /* Centrer le titre sur mobile */
+        }
+        .gal-gallery {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Moins de colonnes sur petits écrans */
+            padding: 0 10px;
+        }
+        h2 { /* Ajustement de la taille de police sur mobile si nécessaire */
+            font-size: 24px;
+        }
+    }
+    @media (max-width: 480px) {
+        .gal-gallery {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Encore moins de colonnes sur très petits écrans */
+        }
+    }
+</style>
+
+<section class="gal-gallery-section">
+    <div class="gal-title">
+        <span class="gal-subtitle">galerie</span>
+        <h2>QUELQUES COIFFURES<br>POUR VOUS SUBLIMER</h2>
+    </div>
+
+    <div class="gal-gallery">
+        {% for img in images_galerie %}
+            <img 
+                src="{{ img.image.url }}" 
+                alt="{{ img.description|default:'image galerie' }}" 
+                class="gal-img" {# Class renommée #}
+                {% if forloop.counter > 12 %}style="display:none;"{% endif %}
+            >
+        {% empty %}
+            <p>Aucune image disponible.</p>
+        {% endfor %}
+    </div>
+
+    <div class="gal-button-container"> {# Class renommée #}
+        <a href="http://127.0.0.1:8000/galerie/" class="gal-btn">Voir la galerie</a> {# Class renommée #}
+    </div>
+</section>

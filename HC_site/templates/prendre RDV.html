@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRENDRE RDV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::before {
+      content: "";
+      position: absolute;
+      left: -60px;
+      top: 5px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: #FF98AAFF;
+      z-index: -1;
+    }
+
+    .hero-section {
+      background-image: url('https://img.freepik.com/photos-premium/femme-africaine-souriante-dans-peignoir-allonge-lit-telephone-portable-textos-souriant-assis-lit_1212-2512.jpg?uid=R83894721&ga=GA1.1.1856038713.1716820850&w=740');
+      background-size: cover;
+      background-position: center;
+      padding: 60px 20px 80px;
+      min-height: 320px;
+      position: relative;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    .hero-section h1 {
+      font-size: 36px;
+      font-weight: 500;
+      margin: 0 auto;
+      max-width: 800px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-section h1 strong {
+      font-weight: 800;
+    }
+
+    .booking-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .form-wrapper {
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 40px 50px 50px;
+      border-radius: 12px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="time"],
+    select,
+    textarea {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+      width: 100%;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #FB2B4EFF;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    button[type="submit"] {
+      background-color: #FB2B4EFF;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      font-weight: 700;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      align-self: center;
+      width: auto;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #6a0dad;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: 300px;
+        padding: 60px 20px;
+      }
+
+      .form-wrapper {
+        padding: 30px 25px 40px;
+        max-width: 90%;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .section-title::before {
+        width: 80px;
+        height: 80px;
+        left: -40px;
+        top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SECTION HÉROS -->
+  <section class="hero-section">
+    <h1>Rendez-vous <strong>belle en un clic</strong></h1>
+  </section>
+
+  <!-- SECTION FORMULAIRE -->
+  <section class="booking-section" id="prise-rdv">
+    <h2 class="section-title">Prendre un rendez-vous</h2>
+    <div class="form-wrapper">
+      <form action="{% url 'prendre_rdv' %}" method="post">
+        {% csrf_token %}
+        
+        <!-- Nom & Prénom -->
+        <div class="field-group">
+          <label for="client_lastname">Nom</label>
+          <input type="text" id="client_lastname" name="client_lastname" placeholder="Votre nom" required>
+        </div>
+        <div class="field-group">
+          <label for="client_firstname">Prénom</label>
+          <input type="text" id="client_firstname" name="client_firstname" placeholder="Votre prénom" required>
+        </div>
+
+        <!-- Contact -->
+        <div class="field-group">
+          <label for="client_email">Email</label>
+          <input type="email" id="client_email" name="client_email" placeholder="exemple@mail.com" required>
+        </div>
+        <div class="field-group">
+          <label for="client_phone">Téléphone</label>
+          <input type="tel" id="client_phone" name="client_phone" placeholder="06 12 34 56 78" required>
+        </div>
+
+        <!-- Prestation -->
+        <div class="field-group">
+          <label for="service_type">Prestation souhaitée</label>
+          <select id="service_type" name="service_type" required>
+            <option value="" disabled selected>Sélectionnez une prestation</option>
+            <option value="coupe_femme">Coupe femme</option>
+            <option value="coupe_homme">Coupe homme</option>
+            <option value="coloration">Coloration</option>
+            <option value="balayage">Balayage</option>
+            <option value="soin_capillaire">Soin capillaire</option>
+          </select>
+        </div>
+
+        <!-- Date & Heure -->
+        <div class="field-group">
+          <label for="date_rd">Date souhaitée</label>
+          <input type="date" id="date_rd" name="date_rd" required>
+        </div>
+        <div class="field-group">
+          <label for="time_rd">Heure souhaitée</label>
+          <input type="time" id="time_rd" name="time_rd" required>
+        </div>
+
+        <!-- Commentaires -->
+        <div class="field-group">
+          <label for="comments">Commentaires (optionnel)</label>
+          <textarea id="comments" name="comments" placeholder="Ex : Je préfère une coiffeuse expérimentée..."></textarea>
+        </div>
+
+        <!-- Bouton -->
+
+        <button type="submit" name="prendre_rdv_submit">Réserver mon rendez-vous</button>
+      </form>
+    </div>
+  </section>
+
+</body>
+</html>

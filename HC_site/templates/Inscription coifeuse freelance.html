@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Présentation de Service</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* SECTION – Titres */
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::before {
+      content: "";
+      position: absolute;
+      left: -60px;
+      top: 5px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: #FF98AAFF;
+      z-index: -1;
+    }
+
+    /* SECTION : Comment travaillons-nous ? */
+    .how-we-work {
+      max-width: 1000px;
+    }
+
+    .how-we-work p {
+      color: #aaa;
+      margin-top: 0;
+      margin-bottom: 40px;
+      font-size: 16px;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+    }
+
+    .step {
+      flex: 1 1 calc(50% - 40px);
+      max-width: calc(50% - 40px);
+    }
+
+    .step h3 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .step span.number {
+      color: #FB2B4EFF;
+      font-size: 40px;
+      margin-right: 10px;
+      font-weight: 600;
+    }
+
+    .step p {
+      color: #777;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    /* SECTION – Héros */
+    .hero-section {
+      background-image: url('https://img.freepik.com/photos-premium/coiffeur-appreciant-son-travail_274689-9029.jpg?uid=R83894721&ga=GA1.1.1856038713.1716820850&w=740');
+      background-size: cover;
+      background-position: center;
+      padding: 120px 20px 160px;
+      position: relative;
+      color: white;
+      text-align: center;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4); /* assombrit l'image */
+      z-index: 0;
+    }
+
+    .hero-section h1,
+    .hero-section button {
+      position: relative;
+      z-index: 1; /* au-dessus de l'overlay */
+      align-self: center;
+    }
+
+    .hero-section h1 {
+      font-size: 44px;
+      font-weight: 500;
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    .hero-section h1 strong {
+      font-weight: 800;
+    }
+
+    .hero-section button {
+      margin-top: 30px;
+      padding: 14px 30px;
+      background-color: #FB2B4EFF;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* FORMULAIRE */
+    .form-section {
+      max-width: 700px;
+      margin: 80px auto;
+      text-align: center;
+    }
+
+    .form-section h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .form-section h2::before {
+      content: "";
+      position: absolute;
+      left: -60px;
+      top: 5px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: #FF98AAFF;
+      z-index: -1;
+    }
+
+    .form-wrapper {
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      padding: 40px 50px 50px;
+      border-radius: 12px;
+      color: #333;
+      margin-top: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    select,
+    textarea {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+      width: 100%;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #FB2B4EFF;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    button[type="submit"] {
+      background-color: #FB2B4EFF;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      font-weight: 700;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      align-self: center;
+      width: auto;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #6a0dad;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .step {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      .hero-section {
+        padding-bottom: 240px;
+      }
+
+      .form-wrapper {
+        padding: 30px 25px 40px;
+        max-width: 90%;
+      }
+
+      .section-title,
+      .form-section h2 {
+        font-size: 28px;
+      }
+
+      .section-title::before,
+      .form-section h2::before {
+        width: 80px;
+        height: 80px;
+        left: -40px;
+        top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SECTION HÉROS -->
+  <section class="hero-section">
+    <h1><strong>Travaillez librement</strong> , gagnez plus, <strong> coiffez avec passion !</strong></h1>
+    <button onclick="location.href='#formulaire'">S'inscrire</button>
+  </section>
+
+  <!-- SECTION COMMENT TRAVAILLONS-NOUS -->
+  <div class="container">
+    <section class="how-we-work">
+      <h2 class="section-title">Comment collaborer avec nous?</h2>
+      <p>Notre stratégie de collaboration</p>
+
+      <div class="steps">
+        <div class="step">
+          <h3><span class="number">1.</span>Inscription simple et rapide</h3>
+          <p>Vous remplissez notre formulaire avec vos informations, vos prestations et vos disponibilités.</p>
+        </div>
+        <div class="step">
+          <h3><span class="number">2.</span>Vérification de votre profil</h3>
+          <p>Nous étudions votre candidature pour nous assurer que vous correspondez à notre vision de qualité et de sérieux.</p>
+        </div>
+        <div class="step">
+          <h3><span class="number">3.</span>Activation de votre profil</h3>
+          <p>Une fois validée, vous apparaissez sur notre plateforme et commencez à recevoir vos premières demandes de rendez-vous.</p>
+        </div>
+        <div class="step">
+          <h3><span class="number">4.</span>À savoir</h3>
+          <p>Nous avons un quota sur rous les prestations que vous ferez.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FORMULAIRE SALON DE BEAUTÉ -->
+  <!-- FORMULAIRE COIFFEUSE FREELANCE -->
+<section id="formulaire" class="form-section">
+  <h2>S'inscrire comme coiffeuse freelance</h2>
+  <div class="form-wrapper" aria-label="Formulaire d'inscription coiffeuse freelance">
+    <form method="post" action="{% url 'inscription_coiffeuse_reussie' %}" class="inscription-coiffeuse-reussie">
+    
+      {% csrf_token %}
+
+      <label for="lastname">Nom</label>
+      <input type="text" id="lastname" name="lastname" placeholder="Votre nom" required />
+
+      <label for="firstname">Prénom</label>
+      <input type="text" id="firstname" name="firstname" placeholder="Votre prénom" required />
+
+      <label for="marital_status">Situation matrimoniale</label>
+      <select id="marital_status" name="marital_status" required>
+        <option value="" disabled selected>Choisissez une option</option>
+        <option value="célibataire">Célibataire</option>
+        <option value="mariée">Mariée</option>
+        <option value="fiancée">Fiancée</option>
+        <option value="autre">Autre</option>
+      </select>
+
+      <label for="children">Avez-vous des enfants ?</label>
+      <select id="children" name="children" required>
+        <option value="" disabled selected>Choisissez une option</option>
+        <option value="non">Non</option>
+        <option value="oui">Oui</option>
+      </select>
+
+      <label for="nb_children">Si oui, combien ?</label>
+      <input type="number" id="nb_children" name="nb_children" min="0" placeholder="Nombre d'enfants" />
+
+      <label for="residence">Lieu d'habitation</label>
+      <input type="text" id="residence" name="residence" placeholder="Votre ville / quartier" required />
+
+      <label for="phone">Contact principal</label>
+      <input type="tel" id="phone" name="phone" placeholder="Numéro de téléphone" required />
+
+      <label for="emergency_contact">Contact en cas d'urgence</label>
+      <input type="tel" id="emergency_contact" name="emergency_contact" placeholder="Téléphone urgence" required />
+
+      <label for="skills">Compétences</label>
+      <textarea id="skills" name="skills" placeholder="Décrivez vos compétences en coiffure..." required></textarea>
+
+      <label for="availability">Jours de disponibilité</label>
+      <input type="text" id="availability" name="availability" placeholder="Ex : Lundi à samedi, sauf mercredi" required />
+
+    
+      <button type="submit" name="coiffeuse_freelance_submit">Envoyer la demande</button>
+    </form>
+  </div>
+</section>
+
+
+</body>
+</html>

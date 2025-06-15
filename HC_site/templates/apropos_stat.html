@@ -1,0 +1,148 @@
+{% load static %}
+
+<section class="stats-section">
+  {% if video_fond %}
+    <video autoplay muted loop class="stats-video-background" playsinline>
+      <source src="{{ video_fond.video_fond.url }}" type="video/mp4">
+      Votre navigateur ne supporte pas les vidéos HTML5.
+    </video>
+  {% endif %}
+
+  <div class="stats-content">
+    <h2 class="stats-title">Qu'avons-nous fait ?</h2>
+    <p class="stats-subtitle">Nous sommes là pour vous aider à trouver la meilleure solution</p>
+
+    <div class="stats-container">
+      {% for stat in apropos_stats %}
+        <div class="stat-block">
+          {% if stat.icone %}
+            <div class="stat-icone">{{ stat.icone|safe }}</div>
+          {% endif %}
+          <div class="stat-number" data-target="{{ stat.valeur }}" data-suffix="{{ stat.suffixe|default:'' }}">0</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+ .stats-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 80vh; /* réduit la hauteur de la section */
+}
+
+.stats-video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.stats-content {
+  position: absolute; /* pour couvrir toute la section */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* prend toute la hauteur de la section */
+  background-color: rgba(0, 0, 0, 0.6); /* fond noir translucide */
+  padding: 50px 30px; /* réduit padding haut/bas */
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+
+
+  .stats-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .stats-subtitle {
+    font-size: 18px;
+    color: #ccc;
+    margin-bottom: 60px;
+  }
+
+  .stats-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 60px;
+  }
+
+  .stat-block {
+    min-width: 150px;
+    text-align: center;
+  }
+
+  .stat-icone {
+    font-size: 40px;
+    margin-bottom: 8px;
+  }
+
+  .stat-number {
+    font-size: 64px;
+    font-weight: 600;
+    color: #e5194a;
+  }
+
+  .stat-label {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .stats-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-number {
+      font-size: 48px;
+    }
+
+    .stats-title {
+      font-size: 28px;
+    }
+  }
+</style>
+
+<script>
+  function animateCounter(el, target, suffix = '', duration = 2000) {
+    let start = 0;
+    const stepTime = Math.max(Math.floor(duration / target), 20);
+    const increment = target / (duration / stepTime);
+
+    const counter = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        el.textContent = suffix ? `${Math.floor(target)}${suffix}` : Math.floor(target);
+        clearInterval(counter);
+      } else {
+        el.textContent = suffix ? `${Math.floor(start)}${suffix}` : Math.floor(start);
+      }
+    }, stepTime);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const counters = document.querySelectorAll('.stat-number');
+    counters.forEach(counter => {
+      const target = +counter.getAttribute('data-target');
+      const suffix = counter.getAttribute('data-suffix') || '';
+      animateCounter(counter, target, suffix);
+    });
+  });
+</script>
+
+
+</body>
+</html>

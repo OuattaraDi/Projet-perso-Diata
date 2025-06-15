@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ apropos_hc_content.titre }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 40px 60px;
+      max-width: 1200px;
+      margin: auto;
+      gap: 50px;
+    }
+
+    .text-section {
+      flex: 1;
+    }
+
+    .text-section h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      font-weight: 700;
+      margin-top: 0;
+      color : #e5194a;
+    }
+
+    .text-section p {
+      font-size: 20px;
+      line-height: 1.8;
+    }
+
+    .image-box {
+      flex: 1;
+      perspective: 1000px;
+    }
+
+    .image-inner {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.1s ease-out;
+      transform-style: preserve-3d;
+    }
+
+    .image-inner img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        padding: 30px;
+      }
+
+      .text-section h1 {
+        font-size: 28px;
+      }
+
+      .text-section p {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-section">
+      <h1>{{ apropos_hc_content.titre }}</h1>
+      <p>{{ apropos_hc_content.description|linebreaksbr }}</p>
+    </div>
+    <div class="image-box" id="imageBox">
+      <div class="image-inner" id="imageInner">
+        {% if apropos_hc_content.image %}
+          <img src="{{ apropos_hc_content.image.url }}" alt="Image à propos">
+        {% else %}
+          <img src="{% static 'images/default.jpg' %}" alt="Image par défaut">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const imageBox = document.getElementById('imageBox');
+    const imageInner = document.getElementById('imageInner');
+
+    imageBox.addEventListener('mousemove', (e) => {
+      const box = imageBox.getBoundingClientRect();
+      const x = e.clientX - box.left;
+      const y = e.clientY - box.top;
+      const centerX = box.width / 2;
+      const centerY = box.height / 2;
+      const rotateX = -(y - centerY) / 20;
+      const rotateY = (x - centerX) / 20;
+
+      imageInner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    imageBox.addEventListener('mouseleave', () => {
+      imageInner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+  </script>
+</body>
+</html>

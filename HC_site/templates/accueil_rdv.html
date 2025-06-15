@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quick - Meilleure Offre</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            overflow-x: hidden;
+            min-height: 150vh;
+        }
+
+        .offer-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 5%;
+            background-color: #fff;
+            box-sizing: border-box;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .offer-content {
+            flex: 1 1 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        .offer-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5em;
+            line-height: 1.1;
+            margin: 0;
+        }
+
+        .offer-content h1 span {
+            display: inline-block;
+            will-change: transform;
+            transition: transform 0.1s ease-out;
+            font-weight: 700;
+        }
+
+        /* Couleurs différentes pour chaque ligne */
+        #offerLine1 {
+            color: #E4002B; /* Rouge vif */
+        }
+        #offerLine2 {
+            color: #000000FF; /* Bleu */
+        }
+        #offerLine3 {
+            color: #000000FF; /* Vert */
+        }
+        #offerLine4 {
+            color: #E4002B; /* Jaune */
+        }
+
+        .button-wrapper {
+            margin-top: 40px; /* séparation bouton / titres */
+        }
+
+        .order-button, .btn {
+            display: inline-block;
+            background-color: #E4002B;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .order-button:hover, .btn:hover {
+            background-color: #C00020;
+        }
+
+.offer-image {
+    flex: 1 1 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden; /* pour éviter que l'image zoomée déborde */
+    position: relative;
+}
+
+.offer-image img {
+    max-width: 100%;
+    max-height: 700px;
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
+
+    /* transition pour zoom + bordure */
+    transition: transform 0.5s ease, border-left 0.5s ease;
+    border-left: 0 solid transparent; /* bordure invisible par défaut */
+}
+
+/* effet au survol de la zone contenant l'image */
+.offer-image:hover img {
+    transform: scale(1.1); /* zoom */
+    
+}
+
+
+
+        @media (max-width: 1024px) {
+            .offer-content h1 {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .offer-section {
+                flex-direction: column;
+                padding: 30px 5%;
+                width: 100%;
+            }
+
+            .offer-content {
+                text-align: center;
+                align-items: center;
+                padding: 20px 0;
+            }
+
+            .offer-content h1 {
+                font-size: 2.5em;
+            }
+
+            .offer-image {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .offer-content h1 {
+                font-size: 2em;
+            }
+
+            .order-button, .btn {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+
+            .offer-image {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+{% if accueil_rdv_content %}
+<section class="offer-section">
+    <div class="offer-content">
+        <h1>
+            <span id="offerLine1">{{ accueil_rdv_content.titre_ligne_1 }}</span><br>
+            <span id="offerLine2">{{ accueil_rdv_content.titre_ligne_2 }}</span><br>
+            <span id="offerLine3">{{ accueil_rdv_content.titre_ligne_3 }}</span><br>
+            <span id="offerLine4">{{ accueil_rdv_content.titre_ligne_4 }}</span>
+        </h1>
+
+        <div class="button-wrapper">
+            {% if accueil_rdv_content.lien_bouton %}
+                <a href="{{ accueil_rdv_content.lien_bouton }}" class="btn">{{ accueil_rdv_content.texte_bouton }}</a>
+            {% else %}
+                <button class="btn">{{ accueil_rdv_content.texte_bouton }}</button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="offer-image">
+        <img src="{{ accueil_rdv_content.image.url }}" alt="Image de l'offre" />
+    </div>
+</section>
+{% else %}
+    <p style="color: red; text-align: center;">Aucune donnée 'Accueil RDV' trouvée.</p>
+{% endif %}
+
+<script>
+    const offerLine1 = document.getElementById('offerLine1');
+    const offerLine2 = document.getElementById('offerLine2');
+    const offerLine3 = document.getElementById('offerLine3');
+    const offerLine4 = document.getElementById('offerLine4');
+    const offerSection = document.querySelector('.offer-section');
+
+    window.addEventListener('scroll', () => {
+        const sectionRect = offerSection.getBoundingClientRect();
+        const sectionTop = sectionRect.top;
+        const sectionHeight = sectionRect.height;
+        const viewportHeight = window.innerHeight;
+
+        let scrollProgress = 0;
+
+        // Quand la section est dans la fenêtre (partiellement visible)
+        if (sectionTop < viewportHeight && sectionTop + sectionHeight > 0) {
+            scrollProgress = (viewportHeight - sectionTop) / (viewportHeight + sectionHeight);
+            scrollProgress = Math.min(Math.max(scrollProgress, 0), 1);
+        }
+
+        const movementRange = 100; // max pixels à déplacer
+
+        // On applique un décalage horizontal progressif
+        if (offerLine1) offerLine1.style.transform = `translateX(${-movementRange * scrollProgress}px)`;
+        if (offerLine2) offerLine2.style.transform = `translateX(${movementRange * scrollProgress}px)`;
+        if (offerLine3) offerLine3.style.transform = `translateX(${-movementRange * scrollProgress}px)`;
+        if (offerLine4) offerLine4.style.transform = `translateX(${movementRange * scrollProgress}px)`;
+    });
+</script>
+
+</body>
+</html>
